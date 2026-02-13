@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:linear-gradient(135deg,#ffffff,#ffe6ec);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    position:relative;
+}
+
+body::before{
+    content:"";
+    position:absolute;
+    width:120%;
+    height:120%;
+    background:linear-gradient(135deg,#ffffff,#ffd6e0);
+    z-index:-2;
+    animation:zoom 20s ease-in-out infinite alternate;
+}
+@keyframes zoom{
+    from{transform:scale(1);}
+    to{transform:scale(1.05);}
+}
+
+.petal{
+    position:absolute;
+    top:-20px;
+    width:25px;
+    height:25px;
+    background:pink;
+    border-radius:50%;
+    opacity:0.7;
+    animation:fall linear infinite;
+}
+@keyframes fall{
+    to{
+        transform:translateY(110vh) rotate(360deg);
+    }
+}
+
+.container{
+    backdrop-filter:blur(12px);
+    background:rgba(255,255,255,0.6);
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 10px 40px rgba(255,182,193,0.3);
+    transition:opacity 1.5s ease;
+    max-width:500px;
+}
+
+.hidden{
+    opacity:0;
+    pointer-events:none;
+}
+
+button{
+    margin:15px;
+    padding:10px 25px;
+    border-radius:25px;
+    border:none;
+    background:#ffb6c1;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+button:hover{
+    background:#ff8fa3;
+}
+
+.proposal{
+    font-family:'Pacifico',cursive;
+    font-size:28px;
+    margin-bottom:20px;
+}
+
+.final{
+    font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" src="love.mp3" loop></audio>
+
+<script>
+for(let i=0;i<35;i++){
+    const petal=document.createElement("div");
+    petal.classList.add("petal");
+    petal.style.left=Math.random()*100+"vw";
+    petal.style.animationDuration=(8+Math.random()*10)+"s";
+    document.body.appendChild(petal);
+}
+</script>
+
+<!-- WELCOME -->
+<div class="container" id="welcomeScreen">
+    <h2>⚠️ ALERT ⚠️</h2><br>
+    <p>Unauthorized Entry Detected</p>
+    <h3>💘 Adhitya 💘</h3>
+    <p>This is a Restricted Love Zone.</p>
+
+    <button onclick="startExperience()">Yes, I am extremely handsome 😌</button>
+    <button id="noWelcome">No, I'm just average</button>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="container hidden" id="countdownScreen">
+    <h2>Confidence detected 😏</h2><br>
+    <div id="countNumber" style="font-size:50px;font-weight:bold;">10</div>
+</div>
+
+<!-- PASSWORD -->
+<div class="container hidden" id="passwordScreen">
+    <h2>A little secret before we begin 🤍</h2><br>
+    <input type="password" id="passwordInput" placeholder="Enter password"
+    style="padding:10px;border-radius:20px;border:none;text-align:center;"><br>
+    <button onclick="checkPassword()">Unlock my heart</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container hidden" id="mainContent">
+    <div id="storyText"></div>
+</div>
+
+<script>
+
+/* Move NO button */
+document.getElementById("noWelcome").addEventListener("mouseover",function(){
+    this.style.position="absolute";
+    this.style.left=Math.random()*window.innerWidth+"px";
+    this.style.top=Math.random()*window.innerHeight+"px";
+});
+
+/* Start Experience */
+function startExperience(){
+    document.getElementById("bgMusic").play();
+    document.getElementById("welcomeScreen").classList.add("hidden");
+    document.getElementById("countdownScreen").classList.remove("hidden");
+    startCountdown();
+}
+
+/* Countdown */
+function startCountdown(){
+    let count=10;
+    const counter=document.getElementById("countNumber");
+
+    const interval=setInterval(()=>{
+        count--;
+        counter.innerText=count;
+        counter.style.fontSize=(50+(10-count)*15)+"px";
+
+        if(count<=0){
+            clearInterval(interval);
+            document.getElementById("countdownScreen").classList.add("hidden");
+            document.getElementById("passwordScreen").classList.remove("hidden");
+        }
+    },1000);
+}
+
+/* Password */
+function checkPassword(){
+    if(document.getElementById("passwordInput").value==="love"){
+        document.getElementById("passwordScreen").classList.add("hidden");
+        document.getElementById("mainContent").classList.remove("hidden");
+        startStory();
+    } else {
+        alert("Wrong password 🤭");
+    }
+}
+
+/* Proposal */
+function startStory(){
+    document.getElementById("storyText").innerHTML=`
+        <div class="proposal">Will you be my Valentine? 🤍</div>
+        <button onclick="sayYes()">YES 🌷</button>
+        <button id="noBtn">NO 🙈</button>
+    `;
+    const noBtn=document.getElementById("noBtn");
+    noBtn.style.position="absolute";
+    noBtn.onmouseover=function(){
+        noBtn.style.left=Math.random()*window.innerWidth+"px";
+        noBtn.style.top=Math.random()*window.innerHeight+"px";
+    };
+}
+
+/* After YES */
+function sayYes(){
+    document.getElementById("storyText").innerHTML=`
+        <div class="final">
+            YAYYYY 🤍✨<br><br>
+            You just made me the happiest person alive 🥺💕<br><br>
+            <button onclick="unlockSecret()">Unlock a secret message ✨</button>
+        </div>
+    `;
+}
+
+/* Secret */
+function unlockSecret(){
+    document.getElementById("storyText").innerHTML=`
+        <div style="background:white;padding:40px;border-radius:25px;">
+            <div class="final" id="typingText"></div>
+            <br><br>
+            <button onclick="emotionalEnding()">Continue 🤍</button>
+        </div>
+    `;
+    typeMessage();
+}
+
+/* Typing */
+function typeMessage(){
+    const text=`Happy Valentine’s Day my love 🤍🌸
+
+I am really happy to make you these surprises 🥺✨
+To see your smile means everything to me 💕
+
+This is our 1st Valentine’s Day 🤍
+And I want every future one with you.
+
+I LOVE YOU 💕✨
+
+— BY SHREE PAPA 💌`;
+
+    let i=0;
+    const speed=30;
+    const area=document.getElementById("typingText");
+
+    function type(){
+        if(i<text.length){
+            area.innerHTML+=text.charAt(i);
+            i++;
+            setTimeout(type,speed);
+        }
+    }
+    type();
+}
+
+/* Emotional Ending */
+function emotionalEnding(){
+    document.getElementById("storyText").innerHTML=`
+        <div class="final" style="line-height:1.8;">
+            No matter what happens in life…<br><br>
+            I will always choose you 🤍<br><br>
+            Every Valentine. Every year. Every lifetime.<br><br>
+            You & Me. Always. 💞
+        </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
